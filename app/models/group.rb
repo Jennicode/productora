@@ -1,0 +1,18 @@
+class Group < ApplicationRecord
+    enum gender: [:males, :females, :both]
+    has_many :concerts
+
+    def total_concerts
+        self.concerts.count
+    end
+
+    def debut
+        self.concerts.present? ? self.concerts.order(concert_date: :desc).first.concert_date : "sin debut"
+    end
+
+    def audience
+        concerts = self.concerts
+        concerts.sum{|x| x.audience}
+    end
+
+end
